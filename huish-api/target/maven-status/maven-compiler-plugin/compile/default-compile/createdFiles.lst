@@ -1,0 +1,10 @@
+xyz\ibenben\zhongdian\system\entity\User.class
+xyz\ibenben\zhongdian\system\dao\TaskDao.class
+xyz\ibenben\zhongdian\system\entity\Task.class
+xyz\ibenben\zhongdian\system\service\UserService.class
+xyz\ibenben\zhongdian\system\service\impl\UserServiceImpl.class
+xyz\ibenben\zhongdian\system\dao\UserDao.class
+xyz\ibenben\zhongdian\Application.class
+xyz\ibenben\zhongdian\common\BaseDao.class
+xyz\ibenben\zhongdian\system\controller\UserController.class
+xyz\ibenben\zhongdian\common\configure\MyBatisMapperScannerConfig.class
