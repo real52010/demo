@@ -23,9 +23,9 @@ import com.jayway.jsonpath.JsonPath;
 public class MyCrawler {
 
     /**
-     * ä½¿ç”¨ç§å­åˆå§‹åŒ– URL é˜Ÿåˆ—
+     * Ê¹ÓÃÖÖ×Ó³õÊ¼»¯ URL ¶ÓÁĞ
      *
-     * @param seeds ç§å­ URL
+     * @param seeds ÖÖ×Ó URL
      * @return
      */
     private void initCrawlerWithSeeds(String[] seeds) {
@@ -35,7 +35,7 @@ public class MyCrawler {
     }
 
     /**
-     * æŠ“å–è¿‡ç¨‹
+     * ×¥È¡¹ı³Ì
      *
      * @param seeds
      * @return
@@ -45,10 +45,10 @@ public class MyCrawler {
      */
     public void crawling(String[] seeds) throws KeyManagementException, NoSuchAlgorithmException, IOException {
 
-        // åˆå§‹åŒ– URL é˜Ÿåˆ—
+        // ³õÊ¼»¯ URL ¶ÓÁĞ
         initCrawlerWithSeeds(seeds);
 
-        // å®šä¹‰è¿‡æ»¤å™¨ï¼Œæå–ä»¥ http://www.baidu.com å¼€å¤´çš„é“¾æ¥
+        // ¶¨Òå¹ıÂËÆ÷£¬ÌáÈ¡ÒÔ http://www.baidu.com ¿ªÍ·µÄÁ´½Ó
         LinkFilter filter = new LinkFilter() {
 
             public boolean accept(String url) {
@@ -59,36 +59,36 @@ public class MyCrawler {
             }
         };
 
-        // å¾ªç¯æ¡ä»¶ï¼šå¾…æŠ“å–çš„é“¾æ¥ä¸ç©ºä¸”æŠ“å–çš„ç½‘é¡µä¸å¤šäº 1000
+        // Ñ­»·Ìõ¼ş£º´ı×¥È¡µÄÁ´½Ó²»¿ÕÇÒ×¥È¡µÄÍøÒ³²»¶àÓÚ 1000
         while (!Links.unVisitedUrlQueueIsEmpty() && Links.getVisitedUrlNum() <= 1000) {
 
-            // å…ˆä»å¾…è®¿é—®çš„åºåˆ—ä¸­å–å‡ºç¬¬ä¸€ä¸ªï¼›
+            // ÏÈ´Ó´ı·ÃÎÊµÄĞòÁĞÖĞÈ¡³öµÚÒ»¸ö£»
             String visitUrl = (String) Links.removeHeadOfUnVisitedUrlQueue();
             if (visitUrl == null) {
                 continue;
             }
 
-            // æ ¹æ®URLå¾—åˆ°page;
+            // ¸ù¾İURLµÃµ½page;
             Page page = RequestAndResponseTool.sendRequstAndGetResponse(visitUrl);
 
-            // //å¯¹pageè¿›è¡Œå¤„ç†ï¼š è®¿é—®DOMçš„æŸä¸ªæ ‡ç­¾
+            // //¶Ôpage½øĞĞ´¦Àí£º ·ÃÎÊDOMµÄÄ³¸ö±êÇ©
             // Elements es = PageParserTool.select(page,"a");
             // if(!es.isEmpty()){
-            // System.out.println("ä¸‹é¢å°†æ‰“å°æ‰€æœ‰aæ ‡ç­¾ï¼š ");
+            // System.out.println("ÏÂÃæ½«´òÓ¡ËùÓĞa±êÇ©£º ");
             // System.out.println(es);
             // }
 
-            // å°†ä¿å­˜æ–‡ä»¶
+            // ½«±£´æÎÄ¼ş
             FileTool.saveToLocal(page);
 
-            // //å°†å·²ç»è®¿é—®è¿‡çš„é“¾æ¥æ”¾å…¥å·²è®¿é—®çš„é“¾æ¥ä¸­ï¼›
+            // //½«ÒÑ¾­·ÃÎÊ¹ıµÄÁ´½Ó·ÅÈëÒÑ·ÃÎÊµÄÁ´½ÓÖĞ£»
             // Links.addVisitedUrlSet(visitUrl);
 
-            // //å¾—åˆ°è¶…é“¾æ¥
+            // //µÃµ½³¬Á´½Ó
             // Set<String> links = PageParserTool.getLinks(page,"img");
             // for (String link : links) {
             // Links.addUnvisitedUrlQueue(link);
-            // System.out.println("æ–°å¢çˆ¬å–è·¯å¾„: " + link);
+            // System.out.println("ĞÂÔöÅÀÈ¡Â·¾¶: " + link);
             // }
         }
     }
@@ -100,7 +100,7 @@ public class MyCrawler {
             .sendRequstAndGetResponse("http://panda.www.net.cn/cgi-bin/check.cgi?area_domain=teapic.com");
 //            System.out.println(page.getContentStr());
     }
-    // main æ–¹æ³•å…¥å£
+    // main ·½·¨Èë¿Ú
     public static void main2(String[] args) throws KeyManagementException, NoSuchAlgorithmException, IOException {
         MyCrawler crawler = new MyCrawler();
         // crawler.crawling(new
@@ -116,7 +116,7 @@ public class MyCrawler {
         long start = System.currentTimeMillis();
         List<Object> data = JsonPath.read(bodydata, "$.data");
        
-        System.out.println("è§£ææ—¶é•¿ï¼š" + (System.currentTimeMillis() - start));
+        System.out.println("½âÎöÊ±³¤£º" + (System.currentTimeMillis() - start));
         WdData wd = null;
         List<WdData> list = new ArrayList<>();
         int i=1;
@@ -136,17 +136,17 @@ public class MyCrawler {
         
         PoiExcelExport pee = new PoiExcelExport("E:/test.xls","sheet1"); 
         
-        //è°ƒç”¨  
+        //µ÷ÓÃ  
         String titleColumn[] = {"index","platName","amount","incomeRate","loanPeriod","stayStillOfTotal"};  
-        String titleName[] = {"åºå·","å¹³å°","æˆäº¤é‡","å¹³å‡å‚è€ƒæ”¶ç›Šç‡(%)","å¹³å‡å€Ÿæ¬¾æœŸé™(æœˆ)","å¾…è¿˜ä½™é¢(ä¸‡å…ƒ)"};  
+        String titleName[] = {"ĞòºÅ","Æ½Ì¨","³É½»Á¿","Æ½¾ù²Î¿¼ÊÕÒæÂÊ(%)","Æ½¾ù½è¿îÆÚÏŞ(ÔÂ)","´ı»¹Óà¶î(ÍòÔª)"};  
         CellType cellType[] = {CellType.TYPE_INT,CellType.TYPE_STRING,CellType.TYPE_DOUBLE,CellType.TYPE_DOUBLE,CellType.TYPE_DOUBLE,CellType.TYPE_DOUBLE};  
 
         int titleSize[] = {10,18,18,18,18,18};  
-        //å…¶ä»–è®¾ç½® setæ–¹æ³•å¯å…¨ä¸è°ƒç”¨  
+        //ÆäËûÉèÖÃ set·½·¨¿ÉÈ«²»µ÷ÓÃ  
         String colFormula[] = new String[6];  
-//        colFormula[4] = "D@*12";   //è®¾ç½®ç¬¬5åˆ—çš„å…¬å¼  
+//        colFormula[4] = "D@*12";   //ÉèÖÃµÚ5ÁĞµÄ¹«Ê½  
 //        pee.setColFormula(colFormula);  
-        pee.setAddress("A1:F1");  //è‡ªåŠ¨ç­›é€‰   
+        pee.setAddress("A1:F1");  //×Ô¶¯É¸Ñ¡   
 //        pee.setTitleBackColor(titleBackColor);
         pee.wirteExcel(titleColumn, titleName,cellType, titleSize, list);  
     }

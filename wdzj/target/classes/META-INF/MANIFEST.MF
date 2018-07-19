@@ -1,15 +1,16 @@
 Manifest-Version: 1.0
 Built-By: cuiyi
-Class-Path: lib/juniversalchardet-1.0.3.jar lib/jsoup-1.8.3.jar lib/co
- mmons-httpclient-3.1.jar lib/commons-logging-1.0.4.jar lib/commons-co
- dec-1.2.jar lib/httpclient-4.3.3.jar lib/httpcore-4.3.2.jar lib/gson-
- 2.8.2.jar lib/json-path-2.4.0.jar lib/json-smart-2.3.jar lib/accessor
- s-smart-1.2.jar lib/asm-5.0.4.jar lib/slf4j-api-1.7.25.jar lib/poi-3.
- 7.jar lib/poi-contrib-3.0.2-FINAL.jar lib/log4j-1.2.13.jar lib/poi-sc
- ratchpad-3.2-FINAL.jar lib/commons-io-1.3.2.jar lib/commons-lang3-3.7
- .jar lib/plexus-compiler-javac-1.8.1.jar lib/plexus-utils-1.5.5.jar l
- ib/plexus-compiler-api-1.8.1.jar lib/aliyun-java-sdk-core-3.5.0.jar l
- ib/json-20170516.jar lib/aliyun-java-sdk-ecs-3.0.0.jar
+Class-Path: lib/juniversalchardet-1.0.3.jar lib/junit-4.11.jar lib/ham
+ crest-core-1.3.jar lib/jsoup-1.8.3.jar lib/commons-httpclient-3.1.jar
+  lib/commons-logging-1.0.4.jar lib/commons-codec-1.2.jar lib/httpclie
+ nt-4.3.3.jar lib/httpcore-4.3.2.jar lib/gson-2.8.2.jar lib/json-path-
+ 2.4.0.jar lib/json-smart-2.3.jar lib/accessors-smart-1.2.jar lib/asm-
+ 5.0.4.jar lib/slf4j-api-1.7.25.jar lib/poi-3.7.jar lib/poi-contrib-3.
+ 0.2-FINAL.jar lib/log4j-1.2.13.jar lib/poi-scratchpad-3.2-FINAL.jar l
+ ib/commons-io-1.3.2.jar lib/commons-lang3-3.7.jar lib/plexus-compiler
+ -javac-1.8.1.jar lib/plexus-utils-1.5.5.jar lib/plexus-compiler-api-1
+ .8.1.jar lib/aliyun-java-sdk-core-3.5.0.jar lib/json-20170516.jar lib
+ /aliyun-java-sdk-ecs-3.0.0.jar
 Build-Jdk: 1.8.0_66
 Created-By: Maven Integration for Eclipse
 Main-Class: com.xxx.uploadFile

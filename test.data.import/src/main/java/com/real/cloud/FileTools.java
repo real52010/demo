@@ -60,12 +60,12 @@ public class FileTools {
 	/**
 	 * * cp 复制文件 * * @param source * @param destination * @param loop * @return
 	 */
-	public static List<File> cp(String source, String destination, boolean loop) {
+	public static List<File> cp(String source, String destination, boolean loop, boolean force) {
 		List<File> list = new ArrayList();
 		try {
 			File srcFile = new File(source);
 			File desFile = new File(destination);
-			list.addAll(cp(srcFile, desFile, loop));
+			list.addAll(cp(srcFile, desFile, loop, force));
 		} catch (Exception ex) {
 			j2log(null, null, ex);
 		}
@@ -73,29 +73,34 @@ public class FileTools {
 	}
 
 	private static void j2log(Object object, Object object2, Exception ex) {
-		
+		ex.printStackTrace();
 	}
 
 	/**
 	 * * cp 复制文件 * * @param source * @param destination * @param loop * @return
 	 */
-	public static List<File> cp(File source, File destination, boolean loop) {
+	public static List<File> cp(File source, File destination, boolean loop, boolean force) {
 		List<File> list = new ArrayList();
 		try {
-			if (!source.exists() || source.isDirectory()) {
-				throw new FileNotFoundException();
+			if (!source.exists()) {
+
+				throw new FileNotFoundException("源文件路径：" + source.getPath());
 			}
-			list.add(cp(source, destination));
+			list.add(cp(source, destination, true));
 			if (loop) {
 				String[] subFile = source.list();
 				for (String subPath : subFile) {
+					
 					String src = combainPath(source.getPath(), subPath);// 子文件原文件路径
 					String des = combainPath(destination.getPath(), subPath);// 子文件目标路径
+					if(des.endsWith("/resource")||des.indexOf("/resource/")>0) {
+						des=des.replace("resource", "resources");
+					}
 					File subfile = new File(src);
 					if (subfile.isFile()) {
-						list.add(cp(src, des));
+						list.add(cp(src, des, force));
 					} else if (subfile.isDirectory() && loop) {
-						list.addAll(cp(src, des, loop));
+						list.addAll(cp(src, des, loop, force));
 					}
 				}
 			}
@@ -108,12 +113,12 @@ public class FileTools {
 	/**
 	 * * cp 单文件复制文件 * * @param source * @param destination * @return
 	 */
-	public static File cp(String source, String destination) {
+	public static File cp(String source, String destination, boolean force) {
 		File desFile = null;
 		try {
 			File srcFile = new File(source);
 			desFile = new File(destination);
-			desFile = cp(srcFile, desFile);
+			desFile = cp(srcFile, desFile, force);
 		} catch (Exception ex) {
 			j2log(null, null, ex);
 		}
@@ -123,18 +128,40 @@ public class FileTools {
 	/**
 	 * * cp 单文件复制文件 * * @param source * @param destination * @return
 	 */
-	public static File cp(File source, File destination) {
+	public static File cp(File source, File destination, boolean force) {
+		System.out.println(source.getPath() + "=>" + destination.getPath());
 		FileInputStream in = null;
 		FileOutputStream out = null;
 		FileChannel inc = null;
 		FileChannel outc = null;
 		try {
-			if (!source.exists() || source.isDirectory()) {
+			if (!source.exists()) {
 				throw new FileNotFoundException();
 			}
 			if (source.getPath().equals(destination.getPath())) {
 				return source;
 			}
+			if(!source.getPath().endsWith(".java")) {
+				if (!force && destination.exists()) {
+					return destination;
+				}
+			}
+			if(source.getPath().endsWith("assembly.xml")) {
+				return destination;
+			}
+			if (source.isDirectory()) {
+				if (!destination.exists()) {
+					destination.mkdirs();
+				}
+
+				return destination;
+
+			} else {
+				if (destination.exists()) {
+					destination.delete();
+				}
+			}
+
 			long allbytes = du(source, false);
 			if (!destination.exists()) {
 				destination.createNewFile();
@@ -274,7 +301,7 @@ public class FileTools {
 				} else {
 					fileName.append("_副本");
 				}
-				cp(source, new File(combainPath(source.getParent(), fileName.toString())));
+				cp(source, new File(combainPath(source.getParent(), fileName.toString())), true);
 			} else {
 				source.renameTo(destination);
 			}
