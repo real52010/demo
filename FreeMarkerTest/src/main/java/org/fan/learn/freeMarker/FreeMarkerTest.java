@@ -16,7 +16,7 @@ public class FreeMarkerTest {
 	private static Configuration configuration;
 	public static void main(String[] args) throws IOException, TemplateException{ 
 		System.out.println("######################start");
-		StringBuilder varStr=FileTools.read("D:\\workspace-sts\\FmTest\\src\\main\\java\\var.txt", "utf-8");
+		StringBuilder varStr=FileTools.read("D:\\GitHub\\demo\\FreeMarkerTest\\src\\main\\java\\var.txt", "utf-8");
 		String[] varArg=varStr.toString().split("\r\n");
 		for (int i = 0; i < varArg.length; i++) {
 			String string = varArg[i];
