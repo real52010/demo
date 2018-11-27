@@ -1,0 +1,23 @@
+server:
+    port: 8080
+    servlet:
+      context-path: /ss
+spring:
+  mvc:
+    view.prefix: /WEB-INF/jsp/
+    view.suffix: .jsp
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 100MB
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    default-property-inclusion: NON_NULL
+# PageHelper
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+
