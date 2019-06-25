@@ -1,11 +1,7 @@
 package org.fan.learn.freeMarker;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import freemarker.template.Configuration;
@@ -37,10 +33,10 @@ public class FreeMarkerTest {
 		
 		
 		
-//		Map<String,Object> map = new HashMap<String,Object>();  // map£¬ĞèÒª¶¯Ì¬Ìî³äµÄÊı¾İ
-//		map.put("name", "ÕÅÈı");
+//		Map<String,Object> map = new HashMap<String,Object>();  // mapï¼Œéœ€è¦åŠ¨æ€å¡«å……çš„æ•°æ®
+//		map.put("name", "å¼ ä¸‰");
 //		map.put("age", "25");
-//		String resultStr = process("t1.ftl",map); // ½âÎö×Ö·û´®Ä£°åµÄ·½·¨£¬²¢·µ»Ø´¦ÀíºóµÄ×Ö·û´®
+//		String resultStr = process("t1.ftl",map); // è§£æå­—ç¬¦ä¸²æ¨¡æ¿çš„æ–¹æ³•ï¼Œå¹¶è¿”å›å¤„ç†åçš„å­—ç¬¦ä¸²
 //		System.out.println(resultStr);
 	}
 	private static Configuration getConfiguration() throws IOException { 
@@ -51,15 +47,15 @@ public class FreeMarkerTest {
 		return configuration;
 	}
 	/**
-	 * ½âÎö×Ö·û´®Ä£°å,Í¨ÓÃ·½·¨
+	 * è§£æå­—ç¬¦ä¸²æ¨¡æ¿,é€šç”¨æ–¹æ³•
 	 * 
 	 * @param template
-	 *            ×Ö·û´®Ä£°å
+	 *            å­—ç¬¦ä¸²æ¨¡æ¿
 	 * @param model; 
-	 *            Êı¾İ
+	 *            æ•°æ®
 	 * @param configuration
-	 *            ÅäÖÃ
-	 * @return ½âÎöºóÄÚÈİ
+	 *            é…ç½®
+	 * @return è§£æåå†…å®¹
 	 */
 	public static String process(String tempPath, Map<String, ?> model) 
 			throws IOException, TemplateException {

@@ -7,4 +7,5 @@ encoding//src/main/java/com/etoak/crawl/page/PageParserTool.java=UTF-8
 encoding//src/main/java/com/etoak/crawl/page/RequestAndResponseTool.java=UTF-8
 encoding//src/main/java/com/etoak/crawl/util/CharsetDetector.java=UTF-8
 encoding//src/main/java/com/etoak/crawl/util/FileTool.java=UTF-8
+encoding//src/main/java/com/etoak/crawl/util/PoiExcelExport.java=GBK
 encoding//src/main/java/com/etoak/crawl/util/RegexRule.java=UTF-8

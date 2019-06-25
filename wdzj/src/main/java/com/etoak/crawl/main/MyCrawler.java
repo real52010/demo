@@ -92,7 +92,7 @@ public class MyCrawler {
         }
     }
 
-    public static void main(String[] args) throws KeyManagementException, NoSuchAlgorithmException, IOException {
+    	public static void main(String[] args) throws KeyManagementException, NoSuchAlgorithmException, IOException {
 
         Page page = RequestAndResponseTool .sendPost("http://domain.aliyuncs.com/?Action=CheckDomain&DomainName=abc.com");
         System.out.println(page.getHtml());
