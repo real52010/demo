@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/main/java/DataTransApp.java=UTF-8
-encoding//src/main/java/DataTransApp2.java=UTF-8
-encoding//src/main/java/DataTransApp3.java=UTF-8
+encoding//src/main/java/DataTransAppXY.java=UTF-8
+encoding//src/main/java/ExcelReader.java=GBK
+encoding//src/main/java/ExcelSheet.java=GBK
 encoding//src/main/resources/log4j.properties=UTF-8

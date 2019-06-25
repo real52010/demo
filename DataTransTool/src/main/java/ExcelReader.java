@@ -3,13 +3,16 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -189,7 +192,13 @@ public class ExcelReader {
 							cellValue = cell.getBooleanCellValue() + "";
 							break;
 						case HSSFCell.CELL_TYPE_FORMULA: // ¹«Ê½
-							cellValue = cell.getCellFormula() + "";
+							if (DateUtil.isCellDateFormatted(cell)) {
+								Date tempValue = cell.getDateCellValue();
+								SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd");
+								cellValue = simpleFormat.format(tempValue);
+							}else {
+								cellValue = String.valueOf(cell.getNumericCellValue());
+							}
 							break;
 						case HSSFCell.CELL_TYPE_BLANK: // ¿ÕÖµ
 							cellValue = "";

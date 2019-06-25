@@ -17,15 +17,19 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+/**
+ * 通过excel导出贷款数据
+ * @author cuiyi
+ *
+ */
 public class DataTransApp {
 
 	// private final static Logger log =
 	// LoggerFactory.getLogger(DataTransApp.class);
 
-	private static String inputDir = "E:/00.个人目录/贷款用户/batch1/";// 指定程序执行结果保存的文件路径
-	private static String outPutDir = "E:/00.个人目录/贷款用户/batch1-result/";// 指定程序执行结果保存的文件路径
-	private static String logFileDir = "E:/00.个人目录/贷款用户/batch1-result/";// 指定程序执行结果保存的文件路径
+	private static String inputDir = "E:/00.个人目录/贷款用户/batch1-result/";// 指定程序执行结果保存的文件路径
+	private static String outPutDir = "E:/00.个人目录/贷款用户/batch1-result(extrep)/";// 指定程序执行结果保存的文件路径
+	private static String logFileDir = "E:/00.个人目录/贷款用户/batch1-result(extrep)/";// 指定程序执行结果保存的文件路径
 
 	public static List<ExcelSheet> loadExcelSheet(File file) {
 		ExcelReader poi = new ExcelReader();
@@ -112,7 +116,7 @@ public class DataTransApp {
 		String fileName = file.getName();
 		String suffix = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
 		List<String> dataList = new ArrayList<String>();
-		if (suffix.equals("xls") || suffix.equals("xlsx") || suffix.equals("xlt")) {
+		if (suffix.equals("xls") || suffix.equals("xlsx")|| suffix.equals("xlt")) {
 			dataList = loadExcelData(file);
 		}
 		if (suffix.equals("txt") || suffix.equals("csv")) {
@@ -125,6 +129,31 @@ public class DataTransApp {
 		initDir(logFileDir);
 		initDir(outPutDir);
 
+		Set<String> phoneSet = new HashSet<String>();
+		
+		List<File> tAllfiles = FileTools.ls("E:\\00.个人目录\\贷款用户\\batch1-result(err)\\", true);
+		List<File> tfiles = new ArrayList<File>();
+
+		for (File file : tAllfiles) {
+			if (file.isDirectory()) {
+				continue;
+			}
+			tfiles.add(file);
+		}
+	
+		for (File file : tfiles) {
+			
+			Map<String,Object> evalMap= loadPhoneNumList(file, phoneSet);
+			List<String> phoneNumList = (List<String>)evalMap.get("avliableList");
+			
+			for (String string : phoneNumList) {
+				phoneSet.add(string);
+			}
+		}
+		
+		System.out.println(phoneSet.size());
+		
+		
 		List<File> Allfiles = FileTools.ls(inputDir, true);
 		List<File> files = new ArrayList<File>();
 
@@ -134,18 +163,19 @@ public class DataTransApp {
 			}
 			files.add(file);
 		}
-		Set<String> phoneSet = new HashSet<String>();
+	 
+		
 		int phoneIndex = 0;
 		int fileSplitSize = 10000;
 		int fileSplit = 0;
 		int fileLineStart = 0;
 		int fileLineEnd = 0;
 		int fileSize = files.size();
-		writemsg("共读取到" + fileSize + "个文件" + "\r\n");
+		writemsg("共读取到" + fileSize + "个文件"+"\r\n");
 		/**
 		 * 数据行数
 		 */
-		int dataSize = 0;
+		int dataSize=0;
 		/**
 		 * 有效电话数
 		 */
@@ -158,22 +188,22 @@ public class DataTransApp {
 		 * 可用电话数
 		 */
 		int avliableSize = 0;
-
+		
 		FileWriter fw = null;
 		BufferedWriter bw = null;
 		String curfileName = null;
 		File loanFile = null;
 		for (File file : files) {
-			Map<String, Object> evalMap = loadPhoneNumList(file, phoneSet);
-			List<String> phoneNumList = (List<String>) evalMap.get("avliableList");
-
-			dataSize = dataSize + (int) evalMap.get("dataSize");
-			checkedSize = checkedSize + (int) evalMap.get("checkedSize");
-			repeatSize = repeatSize + (int) evalMap.get("repeatSize");
-			avliableSize = avliableSize + (int) evalMap.get("avliableSize");
-
+			Map<String,Object> evalMap= loadPhoneNumList(file, phoneSet);
+			List<String> phoneNumList = (List<String>)evalMap.get("avliableList");
+			
+			dataSize=dataSize+(int)evalMap.get("dataSize");
+			checkedSize=checkedSize+(int)evalMap.get("checkedSize");
+			repeatSize=repeatSize+(int)evalMap.get("repeatSize");
+			avliableSize=avliableSize+(int)evalMap.get("avliableSize");
+			
 			Map<String, int[]> fileMap = new LinkedHashMap<String, int[]>();
-			fileLineStart = fileLineEnd + 1;
+			fileLineStart = fileLineEnd+1;
 			for (String phone : phoneNumList) {
 
 				if (phoneIndex % fileSplitSize == 0) {
@@ -196,7 +226,7 @@ public class DataTransApp {
 				fileLineEnd++;
 				phoneIndex++;
 			}
-			if (phoneNumList.size() > 0) {
+			if(phoneNumList.size()>0) {
 				fileMap.put(loanFile.getName(), new int[] { fileLineStart + 1, fileLineEnd });
 				for (Iterator iterator = fileMap.keySet().iterator(); iterator.hasNext();) {
 					String fileName = (String) iterator.next();
@@ -206,11 +236,8 @@ public class DataTransApp {
 
 				}
 			}
-			// else {
-			// fileMap.put(loanFile.getName(), new int[] { fileLineStart + 1, fileLineEnd +
-			// 1});
-			// }
-
+			
+			
 			writemsg("");
 		}
 		if (bw != null) {
@@ -218,8 +245,7 @@ public class DataTransApp {
 			bw.close();
 
 		}
-		writemsg(String.format("总文件数：%s,共读取数据行:%s,有效电话数:%s, 重复号码数:%s，可用号码数：%s", fileSize, dataSize, checkedSize,
-				repeatSize, avliableSize));
+		writemsg(String.format("总文件数：%s,共读取数据行:%s,有效电话数:%s, 重复号码数:%s，可用号码数：%s",fileSize,dataSize,checkedSize,repeatSize,avliableSize));
 
 	}
 
@@ -230,7 +256,7 @@ public class DataTransApp {
 			File file = new File(logFileDir + "/" + "汇总信息.txt");
 			if (!file.exists())
 				file.createNewFile();
-			out = new FileOutputStream(file, true);
+			out = new FileOutputStream(file, false);
 		}
 		return out;
 	}
@@ -243,7 +269,7 @@ public class DataTransApp {
 		out.flush();
 	}
 
-	public static Map<String, Object> loadPhoneNumList(File file, Set<String> phoneSet) {
+	public static Map<String,Object> loadPhoneNumList(File file, Set<String> phoneSet) {
 		String regEx = "[^0-9]";
 		String phoneReg = "^1\\d{10}$";
 		// String phoneReg =
@@ -255,7 +281,7 @@ public class DataTransApp {
 		/**
 		 * 数据行数
 		 */
-		int dataSize = dataList.size();
+		int dataSize=dataList.size();
 		/**
 		 * 有效电话数
 		 */
@@ -268,10 +294,10 @@ public class DataTransApp {
 		 * 可用电话数
 		 */
 		int avliableSize = 0;
-
+		
 		StringBuffer sbmsg = new StringBuffer("共读取非空行数：" + dataSize + "行,");
 		List<String> phoneNumList = new ArrayList<String>();
-		List<String> existRePeatPhoneNumList = new ArrayList<String>();
+		List<String> avliableList = new ArrayList<String>();
 		for (String dataline : dataList) {
 			Matcher m = p.matcher(dataline);
 			String numberLine = m.replaceAll(",").trim();
@@ -287,9 +313,9 @@ public class DataTransApp {
 				}
 			}
 		}
-		checkedSize = phoneNumList.size();
+		 checkedSize = phoneNumList.size();
 		sbmsg.append("有效电话号码数：" + checkedSize + "个,");
-
+		
 		for (String phoneNum : phoneNumList) {
 
 			if (phoneSet.contains(phoneNum)) {
@@ -297,7 +323,7 @@ public class DataTransApp {
 			} else {
 				avliableSize++;
 				phoneSet.add(phoneNum);
-				existRePeatPhoneNumList.add(phoneNum);
+				avliableList.add(phoneNum);
 			}
 
 		}
@@ -305,12 +331,13 @@ public class DataTransApp {
 		sbmsg.append("重复电话号码数：" + repeatSize + "个");
 		writemsg(sbmsg.toString());
 		HashMap<String, Object> map = new HashMap<>();
-
+		
+		
 		map.put("dataSize", dataSize);
 		map.put("checkedSize", checkedSize);
 		map.put("repeatSize", repeatSize);
 		map.put("avliableSize", avliableSize);
-		map.put("avliableList", existRePeatPhoneNumList);
+		map.put("avliableList", avliableList);
 		return map;
 	}
 
