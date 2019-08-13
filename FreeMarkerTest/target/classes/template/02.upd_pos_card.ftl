@@ -1,0 +1,1 @@
+update hyf_pos_pay_order set card_no='${cardNO}',trans_fee='${transFee}', pay_code='${payCode}'  where service_type=2 and tl_order_code='${tlOrderCode}';
