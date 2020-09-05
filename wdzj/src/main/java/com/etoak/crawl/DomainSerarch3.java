@@ -9,8 +9,8 @@ import com.jayway.jsonpath.JsonPath;
 
 public class DomainSerarch3 {
 
-    private static final String accessKeyId     = "LTAIoHqHoMZdX5o7";
-    private static final String accessKeySecret = "iYkeVz0wv3z4Zr1xaWtLVQ1dHbbJNw";
+    private static final String accessKeyId     = "";
+    private static final String accessKeySecret = "";
 
     public static void main(String[] args) throws Exception {
 
